@@ -6,7 +6,6 @@ import WeeklyDataList from "./WeeklyDataList";
 const getWeeklyStatus = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/posts", {
-      cache: "no-store",
       next: { tags: ["post-lists"] },
     });
 
@@ -51,7 +50,7 @@ export default async function WeekStatus() {
   }
 
   return (
-    <div className="w-[30%]">
+    <div className="w-[20%] min-w-20">
       <Divider orientation="left">Weekly Data</Divider>
       <WeeklyDataList weekdayCount={weekdayCount} />
     </div>

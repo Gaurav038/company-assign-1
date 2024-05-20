@@ -8,7 +8,7 @@ function WeeklyDataList({weekdayCount}: any) {
       bordered
       dataSource={weekdayCount}
       renderItem={(item: any) => {
-        const [day, count] = Object.entries(item)[0]; 
+        const [day, count]: any = Object.entries(item)[0]; 
        return <List.Item>
           <Typography.Text mark>[{count}]</Typography.Text> | {day}
         </List.Item>

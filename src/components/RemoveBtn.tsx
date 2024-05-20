@@ -2,31 +2,48 @@
 
 import { deletePost } from "@/actions/post";
 import usePosts from "@/hooks/usePosts";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 
-export default function RemoveBtn({ id }) {
+export default function RemoveBtn({ id }: any) {
   const { mutate } = usePosts();
+  const [api, contextHolder] = notification.useNotification();
 
+  const openNotification = () => {
+    api.open({
+      message: "Notification Title",
+      description:
+        "I will never close automatically. This is a purposely very very long description that has many many characters and words.",
+      duration: 3,
+    });
+  };
   const removeTopic = async () => {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-      await deletePost(id);
-      mutate()
+      try {
+        await deletePost(id);
+        mutate();
+      } catch (error: any) {
+        console.log(error?.message);
+        openNotification()
+      }
     }
   };
 
   return (
-    <Button
-      className="flex justify-end float-end"
-      type="primary"
-      danger
-      ghost
-      loading={false}
-      iconPosition="end"
-      onClick={removeTopic}
-    >
-      Delete
-    </Button>
+    <>
+      {contextHolder}
+      <Button
+        className="flex justify-end float-end"
+        type="primary"
+        danger
+        ghost
+        loading={false}
+        iconPosition="end"
+        onClick={removeTopic}
+      >
+        Delete
+      </Button>
+    </>
   );
 }

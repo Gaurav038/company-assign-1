@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Checkbox, Select } from "antd";
 import RemoveBtn from "./RemoveBtn";
 import moment from "moment";
@@ -21,11 +21,7 @@ const weekdays = [
 
 export default function PostList() {
   const [selectedWeekdays, setSelectedWeekdays] = useState([]);
-  const { posts, isLoading, isError, mutate } = usePosts(selectedWeekdays);
-
-  const handleFilterSubmit = () => {
-    mutate(); // Trigger revalidation with the new filter
-  };
+  const { posts, isLoading, isError } = usePosts(selectedWeekdays);
 
   if (isLoading)
     return (
@@ -46,7 +42,7 @@ export default function PostList() {
       <div className="text-xl">Post list</div>
       <Select
         mode="multiple"
-        style={{ width: "50%" }}
+        style={{ width: "30%" }}
         placeholder="Select weekdays"
         onChange={setSelectedWeekdays}
         value={selectedWeekdays}
