@@ -13,7 +13,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.nextUrl))
   }
   if (path != '/' && !isPublicPath && !token) {
-    return NextResponse.redirect(new URL('/login', request.nextUrl))
+    const redirectUrl = new URL('/login', request.nextUrl);
+    redirectUrl.searchParams.set('redirectTo', path);
+    return NextResponse.redirect(redirectUrl)
   }
     
 }
@@ -25,6 +27,7 @@ export const config = {
     '/',
     '/login',
     '/signup',
-    '/about/:path*'
+    '/about/:path*',
+    '/post/:id*'
   ]
 }

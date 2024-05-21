@@ -2,9 +2,10 @@
 
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
+  DatabaseOutlined,
+  HomeOutlined,
+  LoginOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
@@ -22,6 +23,7 @@ const App: React.FC = () => {
     try {
       await axios.get("/api/users/logout");
       router.push("/login");
+      router.refresh(); 
     } catch (error: any) {
       console.log(error.message);
     }
@@ -49,22 +51,22 @@ const App: React.FC = () => {
     {
       key: "/",
       label: "Home",
-      icon: <MailOutlined />,
+      icon: <HomeOutlined />,
     },
     {
       key: "/about/1",
       label: "About",
-      icon: <AppstoreOutlined />,
+      icon: <DatabaseOutlined />,
     },
     !userData && {
       key: "/login",
       label: "Login",
-      icon: <SettingOutlined />,
+      icon: <LoginOutlined />,
     },
     userData && {
       key: "/logout",
       label: "Logout",
-      icon: <SettingOutlined />,
+      icon: <LogoutOutlined />,
       onClick: logout,
     },
   ];

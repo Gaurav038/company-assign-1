@@ -8,15 +8,17 @@ export default function RemoveBtn({ id }: any) {
   const { mutate } = usePosts();
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = () => {
-    api.open({
-      message: "Notification Title",
-      description:
-        "I will never close automatically. This is a purposely very very long description that has many many characters and words.",
+  const openNotification = (message: string) => {
+    api.warning({
+      message: "Warning",
+      description: message,
       duration: 3,
     });
   };
-  const removeTopic = async () => {
+
+  const removeTopic = async (e: any) => {
+    e.stopPropagation();
+
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
@@ -25,7 +27,7 @@ export default function RemoveBtn({ id }: any) {
         mutate();
       } catch (error: any) {
         console.log(error?.message);
-        openNotification()
+        openNotification(error?.message)
       }
     }
   };

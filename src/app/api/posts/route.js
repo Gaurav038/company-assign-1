@@ -24,7 +24,7 @@ export async function GET(req) {
 
   const dayFilter = days ? days.split(",") : [];
   const filter = dayFilter.length > 0 ? { currentDay: { $in: dayFilter } } : {};
-  const posts = await Post.find(filter);
+  const posts = await Post.find(filter).sort({ createdAt: -1 }) ;
   return NextResponse.json({ posts });
 }
 

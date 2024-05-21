@@ -10,17 +10,17 @@ const getInfoByoptionsId = (id: any) => {
       return data.info;
     }
   }
-  return null
+  return null;
 };
 
 const checkInfoData = (infoData: any, secondSelect: any) => {
-  for(const item of infoData){
-    if(item.id == secondSelect){
-      return true
+  for (const item of infoData) {
+    if (item.id == secondSelect) {
+      return true;
     }
   }
-  return false
-}
+  return false;
+};
 function page({ params }: any) {
   const router = useRouter();
   const firstSelect: any = params.aboutItem?.[0];
@@ -28,10 +28,10 @@ function page({ params }: any) {
 
   const infoData = getInfoByoptionsId(firstSelect);
 
-  if(!infoData || (secondSelect && !checkInfoData(infoData, secondSelect))){ 
+  if (!infoData || (secondSelect && !checkInfoData(infoData, secondSelect))) {
     console.log(infoData);
-           
-    router.push(`/about/1`)
+
+    router.push(`/about/1`);
   }
 
   return (
@@ -42,6 +42,7 @@ function page({ params }: any) {
           {AboutDatas?.options?.map((item) => {
             return (
               <div
+                key={item?.id}
                 onClick={() => {
                   router.push(`/about/${item?.id}`);
                 }}
@@ -62,6 +63,7 @@ function page({ params }: any) {
           {infoData?.map((item) => {
             return (
               <div
+                key={item?.id}
                 onClick={() => {
                   router.push(`/about/${firstSelect}/${item?.id}`);
                 }}

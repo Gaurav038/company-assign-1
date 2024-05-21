@@ -50,7 +50,7 @@ export default async function WeekStatus() {
   }
 
   return (
-    <div className="w-[20%] min-w-20">
+    <div className="w-[25%] min-w-[100px]">
       <Divider orientation="left">Weekly Data</Divider>
       <WeeklyDataList weekdayCount={weekdayCount} />
     </div>
