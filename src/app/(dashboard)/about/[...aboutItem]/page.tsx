@@ -2,8 +2,6 @@
 import { AboutDatas } from "@/constant/aboutData";
 import { useRouter } from "next/navigation";
 
-import React, { useState } from "react";
-
 const getInfoByoptionsId = (id: any) => {
   for (const data of AboutDatas.options) {
     if (data.id == id) {
@@ -21,16 +19,15 @@ const checkInfoData = (infoData: any, secondSelect: any) => {
   }
   return false;
 };
+
 function page({ params }: any) {
   const router = useRouter();
-  const firstSelect: any = params.aboutItem?.[0];
+  const firstSelect: any = params?.aboutItem?.[0];
   const secondSelect: any = params?.aboutItem?.[1];
 
   const infoData = getInfoByoptionsId(firstSelect);
 
   if (!infoData || (secondSelect && !checkInfoData(infoData, secondSelect))) {
-    console.log(infoData);
-
     router.push(`/about/1`);
   }
 

@@ -6,7 +6,6 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
 function page() {
-  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();

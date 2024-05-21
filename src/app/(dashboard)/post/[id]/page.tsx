@@ -7,7 +7,7 @@ import LoaderItem from "@/components/Loader";
 const PostDetails = ({ params }: any) => {
   const { id } = params;
   const [post, setPost] = useState<any>(null);
-  const [loading, setLoading] = useState<any>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getPostById = async () => {

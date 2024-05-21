@@ -1,14 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Form, Input, Select, Space } from "antd";
+import { Button, Form, Input} from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const { Option } = Select;
-
 function page() {
-  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
