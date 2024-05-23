@@ -1,79 +1,62 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Input, notification } from "antd";
-import { createPost } from "@/actions/post";
-import usePosts from "@/hooks/usePosts";
+import { Button, Input} from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { createPost } from "@/redux/slices/postSlices";
 
 const { TextArea } = Input;
 
 function CreatePost() {
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { mutate } = usePosts();
-  const [api, contextHolder] = notification.useNotification();
+  const dispatch = useDispatch();
+  const { userAuthSlice}= useSelector((state: any) => state);
 
-  const openNotification = (message: string) => {
-    api.warning({
-      message: "Warning",
-      description: message,
-      duration: 3,
-    });
-  };
-
-  const successNotification = (message: string) => {
-    api.success({
-      message: "Success",
-      description: message,
-      duration: 3,
-    });
-  };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
+
+    if(!userAuthSlice.isAuth){
+      alert("Authentiation required.");
+      setValue("");
+      return;
+    }
     if (!value) {
-      setLoading(false);
       alert("content are required.");
       return;
     }
-
-    try {
-      const rslt = await createPost(value);
-      successNotification("create successFully!")
-      setValue("");
-      mutate();
-    } catch (error: any) {
-      console.log(error?.message);
-      openNotification(error?.message);
-    }
-    setLoading(false);
+    const post = {
+      text: value,
+      id: Date.now() + Math.random(),
+      posted_on: `${moment(new Date()).format("ddd")} ${moment(
+        new Date()
+      ).format("MMM DD YYYY")}`,
+    };
+    dispatch(createPost(post));
+    setValue("");
   };
 
   return (
-    <>
-      {contextHolder}
-      <div className="flex flex-col justify-center mx-auto w-3/4 gap-4">
-        <h1 className="text-xl">Create Post</h1>
-        <div className="flex flex-col gap-2 justify-center ">
-          <TextArea
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder="write post..."
-          />
-          <div>
-            <Button
-              className="flex justify-end float-end"
-              type="primary"
-              loading={loading}
-              iconPosition="end"
-              onClick={handleSubmit}
-            >
-              Save Post
-            </Button>
-          </div>
+    <div className="flex flex-col justify-center mx-auto w-3/4 gap-4">
+      <h1 className="text-xl">Create Post</h1>
+      <div className="flex flex-col gap-2 justify-center ">
+        <TextArea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="write post..."
+        />
+        <div>
+          <Button
+            className="flex justify-end float-end"
+            type="primary"
+            iconPosition="end"
+            onClick={handleSubmit}
+          >
+            Save Post
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

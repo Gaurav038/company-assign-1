@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import AntdStyledComponentsRegistry from "@/components/AntdStyledComponentsRegistry";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Suspense } from "react";
+import { ReduxProvider } from "@/redux/reduxProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,12 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AntdStyledComponentsRegistry>
-          <div className="flex min-h-screen h-auto">
-            {children}
-          </div>
-        </AntdStyledComponentsRegistry>
+      <body>
+        <div className="flex min-h-screen h-auto">
+          <ReduxProvider>
+            <Suspense>{children}</Suspense>
+          </ReduxProvider>
+        </div>
       </body>
     </html>
   );

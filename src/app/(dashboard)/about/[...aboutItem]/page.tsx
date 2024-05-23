@@ -1,32 +1,21 @@
 "use client";
 import { AboutDatas } from "@/constant/aboutData";
-import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { usePathname, useRouter } from "next/navigation";
+import { checkInfoData, getInfoByoptionsId } from "@/utils/about";
+import { redirectPath } from "@/utils/redirectPath";
 
-const getInfoByoptionsId = (id: any) => {
-  for (const data of AboutDatas.options) {
-    if (data.id == id) {
-      return data.info;
-    }
-  }
-  return null;
-};
-
-const checkInfoData = (infoData: any, secondSelect: any) => {
-  for (const item of infoData) {
-    if (item.id == secondSelect) {
-      return true;
-    }
-  }
-  return false;
-};
-
-function page({ params }: any) {
-  const router = useRouter();
+function AboutPage({ params }: any) {
+  const userData = useSelector((state) => state.userAuthSlice.isAuth);
   const firstSelect: any = params?.aboutItem?.[0];
   const secondSelect: any = params?.aboutItem?.[1];
+  const pathname: string = usePathname();
+  const router = useRouter();
 
   const infoData = getInfoByoptionsId(firstSelect);
-
+  if (!userData) {
+    redirectPath(pathname, router);
+  }
   if (!infoData || (secondSelect && !checkInfoData(infoData, secondSelect))) {
     router.push(`/about/1`);
   }
@@ -89,4 +78,4 @@ function page({ params }: any) {
   );
 }
 
-export default page;
+export default AboutPage;

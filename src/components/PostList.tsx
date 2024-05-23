@@ -1,31 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Card, Checkbox, Select } from "antd";
 import RemoveBtn from "./RemoveBtn";
-import moment from "moment";
-import usePosts from "../hooks/usePosts";
 import { useRouter } from "next/navigation";
-import LoaderItem from "./Loader";
+import { useSelector } from "react-redux";
+import { weekdays } from "@/constant/postData";
 
 const { Option } = Select;
 
-const weekdays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
 export default function PostList() {
   const [selectedWeekdays, setSelectedWeekdays] = useState([]);
-  const { posts, isLoading, isError } = usePosts(selectedWeekdays);
   const router = useRouter();
+  const postData = useSelector((state) => state.postSlices.posts);
+  // const [filteredData, setFilteredData] = useState([]);
 
-  if (isError) return <div>Error loading posts</div>;
+  const filteredData = useMemo(() => {
+    if (selectedWeekdays.length > 0) {
+      const updatedData = [...postData].filter((item: any) =>
+        selectedWeekdays.includes(item.posted_on.substr(0, 3))
+      );
+      return updatedData;
+    } else {
+      return [...postData];
+    }
+  }, [selectedWeekdays, postData]);
 
   return (
     <div className="flex flex-col gap-4 w-[70%] overflow-y-auto p-4 rounded-lg">
@@ -43,29 +42,24 @@ export default function PostList() {
           </Option>
         ))}
       </Select>
-      {isLoading ? (
-        <LoaderItem />
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {posts.map((item: any) => {
-            return (
-              <Card
-                hoverable={true}
-                key={item._id}
-                onClick={() => router.push(`/post/${item._id}`)}
-                className="shadow-lg"
-                title={`Posted on : ${moment(item.createdAt).format(
-                  "dddd"
-                )}, ${moment(item.createdAt).format("DD MMM YYYY")}`}
-                bordered={true}
-              >
-                <p>{item?.content}</p>
-                <RemoveBtn id={item._id} />
-              </Card>
-            );
-          })}
-        </div>
-      )}
+
+      <div className="grid grid-cols-1 gap-4">
+        {filteredData.map((item: any) => {
+          return (
+            <Card
+              hoverable={true}
+              key={item.id}
+              onClick={() => router.push(`/post/${item.id}`)}
+              className="shadow-lg"
+              title={`Posted on : ${item.posted_on}`}
+              bordered={true}
+            >
+              <p>{item?.text}</p>
+              <RemoveBtn id={item.id} />
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }

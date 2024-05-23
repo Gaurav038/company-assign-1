@@ -1,58 +1,36 @@
-"use server";
+"use client";
 
-import { Divider, List, Typography } from "antd";
-import WeeklyDataList from "./WeeklyDataList";
+import { Divider } from "antd";
+import { useSelector } from "react-redux";
 
-const getWeeklyStatus = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/posts", {
-      next: { tags: ["post-lists"] },
-    });
+export default function WeekStatus() {
+  const postsData = useSelector((state) => state.postSlices.posts);
+  const weekdayCount: any = {
+    Sun: 0,
+    Mon: 0,
+    Tue: 0,
+    Wed: 0,
+    Thu: 0,
+    Fri: 0,
+    Sat: 0,
+  };
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch products");
-    }
-
-    return res.json();
-  } catch (error) {
-    console.log("Error loading products: ", error);
-  }
-};
-
-export default async function WeekStatus() {
-  const { posts } = await getWeeklyStatus();
-
-  const weekdayCount: any = [
-    { Sunday: 0 },
-    { Monday: 0 },
-    { Tuesday: 0 },
-    { Wednesday: 0 },
-    { Thursday: 0 },
-    { Friday: 0 },
-    { Saturday: 0 },
-  ];
-
-  let dayRecords: any = {};
-  posts.forEach((item: any) => {
-    if (dayRecords[item.currentDay]) {
-      dayRecords[item.currentDay] += 1;
-    } else {
-      dayRecords[item.currentDay] = 1;
-    }
+  postsData.forEach((item) => {
+    weekdayCount[item.posted_on.substr(0, 3)]++;
   });
-  for (const dayName in dayRecords) {
-    const index = weekdayCount.findIndex(
-      (item: any) => Object.keys(item)[0] === dayName
-    );
-    if (index !== -1) {
-      weekdayCount[index][dayName] = dayRecords[dayName];
-    }
-  }
 
+  
   return (
     <div className="w-[25%] min-w-[100px]">
       <Divider orientation="left">Weekly Data</Divider>
-      <WeeklyDataList weekdayCount={weekdayCount} />
+
+      {Object.keys(weekdayCount).map((item) => {
+        return (
+          <div>
+            {item} : {weekdayCount[item]}
+          </div>
+        );
+      })}
     </div>
   );
 }
