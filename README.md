@@ -16,7 +16,7 @@ bun dev
 ### Project Description
 This project serves as a practical example of users to create, read, and delete posts. Only authorize user can delete and create posts. there is a filter post option on the basis of week days. 
 
-#### Project having Two Branch
+#### Project having Two Branch :
 
 ###  **main (branch)**
 
