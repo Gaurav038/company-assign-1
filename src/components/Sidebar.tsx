@@ -10,19 +10,20 @@ const SideBar: React.FC = () => {
   const router = useRouter();
   const pathname: string = usePathname();
   const dispatch = useDispatch();
-  const userAuth = useSelector((state: IRootState) => state.userAuthSlice.isAuth);
+  const userAuth = useSelector(
+    (state: IRootState) => state.userAuthSlice.isAuth
+  );
 
   const onMenuItemClick = (path: string) => {
     if (path !== "/logout") {
       router.push(path);
     } else {
-      if (typeof window !== 'undefined') {
-      localStorage.clear()
-      }
+      localStorage.clear();
+
       dispatch(logOut());
     }
   };
-  
+
   return (
     <div className="flex flex-col gap-2 border-r-2 border-gray-400 w-[10%]">
       <div className="flex flex-col items-center pt-12">

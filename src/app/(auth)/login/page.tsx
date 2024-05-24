@@ -12,10 +12,9 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem("userAuth", "true");
-    }
-      dispatch(logIn());
+    localStorage.setItem("userAuth", "true");
+
+    dispatch(logIn());
     router.push(newParams);
     router.refresh();
   };
