@@ -5,3 +5,6 @@ import postSlices from "./slices/postSlices";
 export const store = configureStore({
   reducer: { userAuthSlice, postSlices },
 });
+
+
+export type IRootState = ReturnType<typeof store.getState>

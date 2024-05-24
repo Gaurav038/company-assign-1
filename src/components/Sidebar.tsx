@@ -4,18 +4,21 @@ import { usePathname, useRouter } from "next/navigation";
 import { MenuItems } from "@/constant/menuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "@/redux/slices/userAuthSlice";
+import { IRootState } from "@/redux/store";
 
 const SideBar: React.FC = () => {
   const router = useRouter();
   const pathname: string = usePathname();
   const dispatch = useDispatch();
-  const userAuth = useSelector((state) => state.userAuthSlice.isAuth);
+  const userAuth = useSelector((state: IRootState) => state.userAuthSlice.isAuth);
 
   const onMenuItemClick = (path: string) => {
     if (path !== "/logout") {
       router.push(path);
     } else {
+      if (typeof window !== 'undefined') {
       localStorage.clear()
+      }
       dispatch(logOut());
     }
   };

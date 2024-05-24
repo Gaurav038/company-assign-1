@@ -1,14 +1,27 @@
 "use client";
 
+import { IRootState } from "@/redux/store";
 import { redirectPath } from "@/utils/redirectPath";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const PostDetails = ({ params }: any) => {
+interface PostDetailsProps {
+  params: { [key: string]: string | undefined };
+}
+
+interface PostType {
+  id?: number;
+  text?: string;
+  posted_on?: string;
+}
+
+const PostDetails = ({ params }: PostDetailsProps) => {
   const { id } = params;
-  const [post, setPost] = useState({});
-  const { postSlices, userAuthSlice } = useSelector((state: any) => state);
+  const [post, setPost] = useState<PostType>({});
+  const { postSlices, userAuthSlice } = useSelector(
+    (state: IRootState) => state
+  );
   const router = useRouter();
   const pathname: string = usePathname();
 
@@ -16,10 +29,10 @@ const PostDetails = ({ params }: any) => {
     redirectPath(pathname, router);
   }
   useEffect(() => {
-    const rslt = postSlices.posts.find((item) => {
+    const rslt = postSlices.posts.find((item: any) => {
       return item.id == id;
     });
-    setPost(rslt);
+    rslt && setPost(rslt);
   }, [id]);
 
   return (
@@ -31,7 +44,7 @@ const PostDetails = ({ params }: any) => {
         </div>
         <div className="px-6 pt-4 pb-2">
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {post.posted_on}
+            {post?.posted_on}
           </span>
         </div>
       </div>

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const sessionData = localStorage.getItem("userAuth")
-
+let sessionData;
+if (typeof window !== "undefined") {
+  localStorage.getItem("userAuth");
+}
 const initialState = {
-  isAuth: !!sessionData
+  isAuth: !!sessionData,
 };
-
 
 console.log(initialState);
 

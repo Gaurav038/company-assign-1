@@ -4,11 +4,18 @@ import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import { checkInfoData, getInfoByoptionsId } from "@/utils/about";
 import { redirectPath } from "@/utils/redirectPath";
+import { IRootState } from "@/redux/store";
 
-function AboutPage({ params }: any) {
-  const userData = useSelector((state) => state.userAuthSlice.isAuth);
-  const firstSelect: any = params?.aboutItem?.[0];
-  const secondSelect: any = params?.aboutItem?.[1];
+interface AboutPageProps {
+  params: { [key: string]: string[] | undefined };
+}
+
+function AboutPage({ params }: AboutPageProps) {
+  const userData = useSelector(
+    (state: IRootState) => state.userAuthSlice.isAuth
+  );
+  const firstSelect = params?.aboutItem?.[0];
+  const secondSelect = params?.aboutItem?.[1];
   const pathname: string = usePathname();
   const router = useRouter();
 
@@ -25,7 +32,7 @@ function AboutPage({ params }: any) {
       <div className="flex justify-center text-[34px] font-bold">About</div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-6">
-          {AboutDatas?.options?.map((item) => {
+          {AboutDatas?.options?.map((item: any) => {
             return (
               <div
                 key={item?.id}
