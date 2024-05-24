@@ -18,20 +18,19 @@ This project serves as a practical example of users to create, read, and delete 
 
 ### Current Project having Two Branch
 
-## -main
+### main (branch)
 
-## Video 
+### Video 
 https://www.loom.com/share/99db08c502a94fdcbd0431924dd4a66e?sid=9a2b5c4f-498d-4bc0-b612-8f43c6fea1e0
-[![Watch the video](https://i.sstatic.net/Vp2cE.png)]([https://youtu.be/vt5fpE0bzSY](https://www.loom.com/share/99db08c502a94fdcbd0431924dd4a66e?sid=9a2b5c4f-498d-4bc0-b612-8f43c6fea1e0
-))
-## Technologies Used
+
+### Technologies Used
 - **Frontend:**
   - NextJs
   - Antd For UI
 - **Backend:**
   - NextJs, MongoDB, mongoose, jwt
 
-## -without-api
+### -without-api (branch)
 ## Technologies Used
 - **Frontend:**
   - NextJs
